@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 
-// RTF - 원자력
+// RTF SEND - 원자력
 app.post('/0033-sendRTF', async (req, res) => {
     //  검체번호(또는 바코드번호), 검사코드, 검체코드, 검사결과본문(rtf), 전송자ID, 전송시간
     // barcodeNo, 검사 코드, 검체 코드, rtf 본문, 전송자 ID, 전송시간
@@ -56,10 +56,22 @@ app.post('/0033-sendRTF', async (req, res) => {
 
     // 밑의 주석 코드는 oracle DB에 barcodeNo와 rtf를 업데이트 및 삽입 하는 내용입니다. 수정이 필요합니다.
 
-    // let connection;
 
+    // const updateSQL = `
+    //     UPDATE 중간테이블
+    //     SET rtfBody = :rtfBody
+    //     WHERE barcodeNo = :barcodeNo
+    // `;
+
+    // const insertSQL = `
+    //     INSERT INTO 중간테이블 (barcodeNo, rtfBody)
+    //     VALUES (:barcodeNo, :rtfBody)
+    // `;
+
+    // let connection;
     // try {
     //     connection = await oracledb.getConnection();
+    //     // await connection.beginTransaction();  트랙잭션 시작
 
     //     const checkSQL = `
     //         SELECT COUNT(*) AS count
@@ -69,22 +81,14 @@ app.post('/0033-sendRTF', async (req, res) => {
     //     const result = await connection.execute(checkSQL, { barcodeNo });
 
     //     if (result.rows[0].COUNT > 0) {
-    //         const updateSQL = `
-    //             UPDATE 중간테이블
-    //             SET rtfBody = :rtfBody
-    //             WHERE barcodeNo = :barcodeNo
-    //         `;
-
     //         await connection.execute(updateSQL, { barcodeNo, rtfBody }, { autoCommit: true });
+
+    //         // await connection.commit();  // 트랜잭션 커밋 - 만약 autoCommit이 false인 상태인 경우 위의 코드에서 { autoCommit: true }를 없애고 해당 코드 주석을 해제해야 함
 
     //         return res.status(200).json({ message: 'Data updated successfully' });
     //     } else {
-    //         const insertSQL = `
-    //             INSERT INTO 중간테이블 (barcodeNo, rtfBody)
-    //             VALUES (:barcodeNo, :rtfBody)
-    //         `;
-
     //         await connection.execute(insertSQL, { barocodeNo, rtfBody }, { autoCommit: true });
+    //         // await connection.commit();  // 트랜잭션 커밋 - 만약 autoCommit이 false인 상태인 경우 위의 코드에서 { autoCommit: true }를 없애고 해당 코드 주석을 해제해야 함
     //         return res.status(201).json({ message: 'Data inserted successfully' });
     //     }
     // } catch (err) {
