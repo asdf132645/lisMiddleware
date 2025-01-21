@@ -42,14 +42,14 @@ app.get('/', (req, res) => {
 app.post('/0033-sendRTF', async (req, res) => {
     //  검체번호(또는 바코드번호), 검사코드, 검체코드, 검사결과본문(rtf), 전송자ID, 전송시간
     // barcodeNo, 검사 코드, 검체 코드, rtf 본문, 전송자 ID, 전송시간
-    const { barcodeNo, rtfBody } = req.body;
+    const { barcodeNo, rtfContent } = req.body;
 
-    if (!barcodeNo || !rtfBody) {
-        res.status(400).json({ error: 'barcodeNo or rtfBody are required' });
+    if (!barcodeNo || !rtfContent) {
+        res.status(400).json({ error: 'barcodeNo or rtfContent are required' });
     }
 
     console.log('barcodeNo', barcodeNo);
-    console.log('rtfBody', rtfBody);
+    console.log('rtfContent', rtfContent);
 
     // 중간테이블 접속 후 insert, update문 필요
     res.send('Success');
@@ -59,35 +59,35 @@ app.post('/0033-sendRTF', async (req, res) => {
 
     // const updateSQL = `
     //     UPDATE 중간테이블
-    //     SET rtfBody = :rtfBody
+    //     SET rtfContent = :rtfContent
     //     WHERE barcodeNo = :barcodeNo
     // `;
-
+    //
     // const insertSQL = `
-    //     INSERT INTO 중간테이블 (barcodeNo, rtfBody)
-    //     VALUES (:barcodeNo, :rtfBody)
+    //     INSERT INTO 중간테이블 (barcodeNo, rtfContent)
+    //     VALUES (:barcodeNo, :rtfContent)
     // `;
-
+    //
     // let connection;
     // try {
     //     connection = await oracledb.getConnection();
     //     // await connection.beginTransaction();  트랙잭션 시작
-
+    //
     //     const checkSQL = `
     //         SELECT COUNT(*) AS count
     //         FROM 중간테이블
     //         WHERE barcodeNo = :barcodeNo
     //     `;
     //     const result = await connection.execute(checkSQL, { barcodeNo });
-
+    //
     //     if (result.rows[0].COUNT > 0) {
-    //         await connection.execute(updateSQL, { barcodeNo, rtfBody }, { autoCommit: true });
-
+    //         await connection.execute(updateSQL, { barcodeNo, rtfContent }, { autoCommit: true });
+    //
     //         // await connection.commit();  // 트랜잭션 커밋 - 만약 autoCommit이 false인 상태인 경우 위의 코드에서 { autoCommit: true }를 없애고 해당 코드 주석을 해제해야 함
-
+    //
     //         return res.status(200).json({ message: 'Data updated successfully' });
     //     } else {
-    //         await connection.execute(insertSQL, { barocodeNo, rtfBody }, { autoCommit: true });
+    //         await connection.execute(insertSQL, { barocodeNo, rtfContent }, { autoCommit: true });
     //         // await connection.commit();  // 트랜잭션 커밋 - 만약 autoCommit이 false인 상태인 경우 위의 코드에서 { autoCommit: true }를 없애고 해당 코드 주석을 해제해야 함
     //         return res.status(201).json({ message: 'Data inserted successfully' });
     //     }
