@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 
 // RTF SEND - 원자력
-app.post('/0033-sendRTF', async (req, res) => {
+app.post('/sendRTF', async (req, res) => {
     //  검체번호(또는 바코드번호), 검사코드, 검체코드, 검사결과본문(rtf), 전송자ID, 전송시간
     // barcodeNo, 검사 코드, 검체 코드, rtf 본문, 전송자 ID, 전송시간
     const { barcodeNo, rtfContent } = req.body;
